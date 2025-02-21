@@ -9,6 +9,7 @@ import com.microservice.order_service.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
+    @Transactional
     public void placeOrder(OrderRequest orderRequest) {
 
         Orders order = new Orders();
@@ -36,6 +38,7 @@ public class OrderService {
         log.info("Order placed successfully with id: {}", order.getId());
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getAllOrders() {
 
         return orderRepository.findAll().stream()
